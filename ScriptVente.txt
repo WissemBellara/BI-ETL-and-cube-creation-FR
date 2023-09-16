@@ -1,0 +1,43 @@
+begin;
+
+-- schema
+drop schema if exists "ventes2" cascade;
+create schema "ventes2";
+set search_path to "ventes2";
+
+create table fournisseurs(
+   idfournisseurs varchar,
+   adressefournisseurs varchar,
+   paysfournisseurs varchar,
+   nomfournisseurs varchar
+);
+create table localisationlivraison(
+   idpayslivraison varchar,
+   nompayslivraison varchar
+);
+create table temps(
+   idtemps varchar,
+   annee int,
+   mois int,
+   trimestre varchar
+);
+
+-- table Fait
+create table ventesfact(
+   quantite float,
+   montant float,
+   idfournisseurs varchar,
+   idpayslivraison varchar, 
+   idtemps varchar
+);
+
+-- primary keys
+ alter table fournisseurs add primary key(idfournisseurs);
+ alter table localisationlivraison add primary key(idpayslivraison);
+ alter table temps add primary key(idtemps);
+ alter table ventesfact add primary key(idfournisseurs,idpayslivraison,idtemps);
+-- foreign keys
+ alter table ventesfact add foreign key(idfournisseurs) references fournisseurs,
+  add foreign key(idpayslivraison) references localisationlivraison,
+  add foreign key(idtemps) references temps;
+commit;
